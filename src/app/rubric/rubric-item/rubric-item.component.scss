@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+}
+
+h1 {
+  font-weight: bold;
+}
+ol {
+  padding-top: 0.5em;
+  padding-left: 1em;
+}
+li {
+  list-style-type: decimal;
+  line-height: 2em;
+  & + li {
+    border-top: 1px dotted gray;
+  }
+}
