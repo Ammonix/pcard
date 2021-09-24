@@ -1,0 +1,35 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4>Add new sub rubric for {{parentRubricName}}</h4>
+  </div>
+  <div class="modal-body">
+    <form #f="ngForm">
+      <input
+        name="file"
+        ngModel
+        required
+        type="file"
+        class="file-input"
+        (change)="onFileSelected($event)"
+        #fileUpload
+      />
+      <div class="file-upload">
+        {{ fileName || "No file uploaded yet. " }}
+
+        <button (click)="fileUpload.click()">
+          <span class="material-icons">attach_file</span>
+        </button>
+      </div>
+      <span>Rubric name:</span>
+      <input name="rubric-name" ngModel required #first="ngModel" />
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="close()">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="onSubmit(f)">
+      Submit
+    </button>
+  </div>
+</div>
