@@ -1,13 +1,17 @@
 import {
   Component,
   ElementRef,
+  Input,
   OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
 } from '@angular/core';
 import { SimpleModalService } from 'ngx-simple-modal';
-import { Observable, Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
+import { RubricService } from 'src/app/shared/services/rubric.service';
+import { Rubric } from 'src/app/shared/types/rubric';
 import { AddNewModalComponent } from '../add-new-modal/add-new-modal.component';
 
 @Component({
@@ -19,19 +23,14 @@ export class RubricItemComponent implements OnInit, OnDestroy {
   @ViewChild('imgContainer') imgContainer!: ElementRef;
   @ViewChild('img') img!: ElementRef;
 
-  imgSrc = 'assets/imgs/motorboot.jpg';
-  title = 'WASSERFAHRZEUGE';
-  subTitle = 'Motorboote';
-  subRubrics = [
-    { name: 'Motorenraum Schallschutz' },
-    { name: 'Innenraum Lärmschutz' },
-    { name: 'Schaumstoff Polster Matratzen' },
-    { name: 'Motorboot Dichtungen-Profile aus Gummi' },
-  ];
+  @Input() rubric!: Rubric;
+
   subscription!: Subscription;
+
   constructor(
     private renderer: Renderer2,
-    private simpleModalService: SimpleModalService
+    private simpleModalService: SimpleModalService,
+    private rubricService: RubricService
   ) {}
 
   ngOnDestroy(): void {
@@ -43,15 +42,20 @@ export class RubricItemComponent implements OnInit, OnDestroy {
   onImgClick(event: MouseEvent) {
     this.subscription = this.simpleModalService
       .addModal(AddNewModalComponent, {
-        parentRubricName: this.title,
-        message: 'Confirm message',
+        parentRubricName: this.rubric.name,
       })
-      .subscribe((isConfirmed) => {
-        //We get modal result
-        if (isConfirmed) {
-          this.placeButton(event.clientX, event.clientY, this.createButton());
-        }
-      });
+      .pipe(
+        mergeMap((result) => {
+          if (result?.isValid) {
+            this.placeButton(event.clientX, event.clientY, this.createButton());
+            return this.rubricService.addSubRubric$(this.rubric.id, {
+              name: result.formData.rubricName,
+            });
+          }
+          return of(this.rubric);
+        })
+      )
+      .subscribe((rubric) => (this.rubric = rubric));
   }
 
   private placeButton(

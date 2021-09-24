@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SimpleModalComponent } from 'ngx-simple-modal';
 
-export interface ConfirmModel {
+export interface AddNewRubricModel {
   parentRubricName: string;
-  message: string;
+}
+export interface AddNewRubricResult {
+  isValid: boolean;
+  formData: { rubricName: string };
 }
 @Component({
   selector: 'app-add-new-modal',
@@ -12,11 +15,10 @@ export interface ConfirmModel {
   styleUrls: ['./add-new-modal.component.scss'],
 })
 export class AddNewModalComponent
-  extends SimpleModalComponent<ConfirmModel, boolean>
-  implements OnInit, ConfirmModel
+  extends SimpleModalComponent<AddNewRubricModel, AddNewRubricResult>
+  implements OnInit, AddNewRubricModel
 {
   parentRubricName!: string;
-  message!: string;
   fileName!: string;
 
   constructor() {
@@ -24,12 +26,12 @@ export class AddNewModalComponent
   }
 
   onSubmit(f: NgForm) {
-    if(f.valid){
-      this.result = true;
+    if (f.valid) {
+      this.result = { isValid: true, formData: f.value };
       this.close();
     }
   }
-  
+
   onFileSelected(event: Event) {
     const fileList = (event?.target as HTMLInputElement).files;
     if (fileList) {

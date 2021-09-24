@@ -1,5 +1,5 @@
 <ul>
-  <li>
-     <app-rubric-item></app-rubric-item>
+  <li *ngFor="let rubric of rubrics$ | async">
+    <app-rubric-item [rubric]="rubric"></app-rubric-item>
   </li>
 </ul>
