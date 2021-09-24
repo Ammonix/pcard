@@ -1,14 +1,11 @@
-<div>
-  <img src="assets/imgs/motorboot.jpg" />
+<div class="img-container" #imgContainer>
+  <img #img [src]="imgSrc" (click)="onImgClick($event)"/>
 </div>
 
 <div>
-  <h1>WASSERFAHRZEUGE</h1>
-  <h2>Motorboote</h2>
+  <h1>{{ title }}</h1>
+  <h2>{{ subTitle }}</h2>
   <ol>
-    <li>Motorenraum Schallschutz</li>
-    <li>Innenraum Lärmschutz</li>
-    <li>Schaumstoff Polster Matratzen</li>
-    <li>Motorboot Dichtungen-Profile aus Gummi</li>
+    <li *ngFor="let subRubric of subRubrics">{{ subRubric.name }}</li>
   </ol>
 </div>

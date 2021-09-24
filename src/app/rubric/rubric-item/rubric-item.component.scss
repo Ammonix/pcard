@@ -16,3 +16,17 @@ li {
     border-top: 1px dotted gray;
   }
 }
+button {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 1em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 50%;
+  position: absolute;
+}
+.img-container{
+  position: relative;
+}
