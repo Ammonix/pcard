@@ -47,7 +47,7 @@ export class RubricItemComponent implements OnInit, OnDestroy {
       .pipe(
         mergeMap((result) => {
           if (result?.isValid) {
-            this.placeButton(event.clientX, event.clientY, this.createButton());
+            this.placeCircle(event.clientX, event.clientY, this.createCircle());
             return this.rubricService.addSubRubric$(this.rubric.id, {
               name: result.formData.rubricName,
             });
@@ -58,22 +58,23 @@ export class RubricItemComponent implements OnInit, OnDestroy {
       .subscribe((rubric) => (this.rubric = rubric));
   }
 
-  private placeButton(
+  private placeCircle(
     pointerX: number,
     pointerY: number,
-    btn: HTMLButtonElement
+    circle: HTMLDivElement
   ) {
-    let x = pointerX - this.img.nativeElement.offsetLeft - btn.clientWidth / 2;
-    let y = pointerY - this.img.nativeElement.offsetTop - btn.clientHeight;
-    this.renderer.setStyle(btn, 'left', x + 'px');
-    this.renderer.setStyle(btn, 'top', y + 'px');
+    let x = pointerX - this.img.nativeElement.offsetLeft - circle.clientWidth / 2;
+    let y = pointerY - this.img.nativeElement.offsetTop - circle.clientHeight;
+    this.renderer.setStyle(circle, 'left', x + 'px');
+    this.renderer.setStyle(circle, 'top', y + 'px');
   }
 
-  private createButton() {
-    let btn: HTMLButtonElement = this.renderer.createElement('BUTTON');
+  private createCircle() {
+    let circle: HTMLDivElement = this.renderer.createElement('div');
     let txt = this.renderer.createText('1');
-    this.renderer.appendChild(btn, txt);
-    this.renderer.appendChild(this.imgContainer.nativeElement, btn);
-    return btn;
+    this.renderer.appendChild(circle, txt);
+    this.renderer.addClass(circle, "circle");
+    this.renderer.appendChild(this.imgContainer.nativeElement, circle);
+    return circle;
   }
 }

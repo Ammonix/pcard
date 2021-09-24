@@ -1,12 +1,13 @@
 <div class="img-container" #imgContainer>
-  <img #img [src]="rubric.imgSrc" (click)="onImgClick($event)"/>
+  <img #img [src]="rubric.imgSrc" (click)="onImgClick($event)" />
 </div>
 
 <div>
   <h1>{{ rubric.name }}</h1>
   <h2>{{ rubric.subTitle }}</h2>
   <ol>
-    <li *ngFor="let subRubric of rubric.children">{{ subRubric.name }}</li>
+    <li *ngFor="let subRubric of rubric.children">
+      {{ subRubric.name }}
+    </li>
   </ol>
 </div>
-<pre>{{rubric | json}}</pre>
