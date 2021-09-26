@@ -50,6 +50,7 @@ export class RubricItemComponent implements OnInit, OnDestroy {
             this.placeCircle(event.clientX, event.clientY, this.createCircle());
             return this.rubricService.addSubRubric$(this.rubric.id, {
               name: result.formData.rubricName,
+              imageSource: "assets/imgs/motorboot.jpg"
             });
           }
           return of(this.rubric);

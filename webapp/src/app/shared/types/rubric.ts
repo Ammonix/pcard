@@ -2,6 +2,6 @@ export interface Rubric {
   id: string;
   name: string;
   subTitle?: string;
-  imgSrc: string;
+  imageSource: string;
   children?: Rubric[];
 }
