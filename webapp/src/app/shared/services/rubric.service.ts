@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Rubric } from '../types/rubric';
+import { environment } from '../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root',
@@ -10,20 +12,18 @@ import { Rubric } from '../types/rubric';
 export class RubricService {
   getRubrics$(): Observable<Rubric[]> {
     return this.httpClient
-      .get<{ statusCode: number; data: Rubric[] }>(
-        'http://localhost:8888/rubrics'
-      )
+      .get<{ statusCode: number; data: Rubric[] }>(`${environment.serverBaseUri}/rubrics`)
       .pipe(map((i) => i.data));
   }
 
   addSubRubric$(
     parentRubricId: string,
-    rubric: Partial<Rubric>
+    formData: FormData
   ): Observable<Rubric> {
     return this.httpClient
       .post<{ statusCode: number; data: Rubric }>(
-        `http://localhost:8888/rubrics/${parentRubricId}/children`,
-        rubric
+        `${environment.serverBaseUri}/rubrics/${parentRubricId}/children`,
+        formData
       )
       .pipe(
         map((i) => i.data),

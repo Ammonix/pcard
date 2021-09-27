@@ -13,6 +13,7 @@ import { mergeMap } from 'rxjs/operators';
 import { RubricService } from 'src/app/shared/services/rubric.service';
 import { Rubric } from 'src/app/shared/types/rubric';
 import { AddNewModalComponent } from '../add-new-modal/add-new-modal.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-rubric-item',
@@ -25,6 +26,7 @@ export class RubricItemComponent implements OnInit, OnDestroy {
 
   @Input() rubric!: Rubric;
 
+  imgUri = environment.serverBaseUri + '/files/';
   subscription!: Subscription;
 
   constructor(
@@ -48,10 +50,10 @@ export class RubricItemComponent implements OnInit, OnDestroy {
         mergeMap((result) => {
           if (result?.isValid) {
             this.placeCircle(event.clientX, event.clientY, this.createCircle());
-            return this.rubricService.addSubRubric$(this.rubric.id, {
-              name: result.formData.rubricName,
-              imageSource: "assets/imgs/motorboot.jpg"
-            });
+            return this.rubricService.addSubRubric$(
+              this.rubric.id,
+              result.formData
+            );
           }
           return of(this.rubric);
         })
@@ -64,7 +66,8 @@ export class RubricItemComponent implements OnInit, OnDestroy {
     pointerY: number,
     circle: HTMLDivElement
   ) {
-    let x = pointerX - this.img.nativeElement.offsetLeft - circle.clientWidth / 2;
+    let x =
+      pointerX - this.img.nativeElement.offsetLeft - circle.clientWidth / 2;
     let y = pointerY - this.img.nativeElement.offsetTop - circle.clientHeight;
     this.renderer.setStyle(circle, 'left', x + 'px');
     this.renderer.setStyle(circle, 'top', y + 'px');
@@ -74,7 +77,7 @@ export class RubricItemComponent implements OnInit, OnDestroy {
     let circle: HTMLDivElement = this.renderer.createElement('div');
     let txt = this.renderer.createText('1');
     this.renderer.appendChild(circle, txt);
-    this.renderer.addClass(circle, "circle");
+    this.renderer.addClass(circle, 'circle');
     this.renderer.appendChild(this.imgContainer.nativeElement, circle);
     return circle;
   }

@@ -84,7 +84,7 @@ class FileRubricRepository implements RubricRepository
                 null,
                 "wasserfahrzeug",
                 "motorboot",
-                "assets/imgs/motorboot.jpg",
+                "boat.jpg",
                 [
                     $childId1,
                     $childId2,

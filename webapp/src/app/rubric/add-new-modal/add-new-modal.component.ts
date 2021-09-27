@@ -7,7 +7,7 @@ export interface AddNewRubricModel {
 }
 export interface AddNewRubricResult {
   isValid: boolean;
-  formData: { rubricName: string };
+  formData: FormData;
 }
 @Component({
   selector: 'app-add-new-modal',
@@ -19,7 +19,7 @@ export class AddNewModalComponent
   implements OnInit, AddNewRubricModel
 {
   parentRubricName!: string;
-  fileName!: string;
+  file!: File;
 
   constructor() {
     super();
@@ -27,7 +27,10 @@ export class AddNewModalComponent
 
   onSubmit(f: NgForm) {
     if (f.valid) {
-      this.result = { isValid: true, formData: f.value };
+      var formData = new FormData();
+      formData.append("file", this.file);
+      formData.append("rubricName", f.value.rubricName);
+      this.result = { isValid: true, formData };
       this.close();
     }
   }
@@ -38,7 +41,7 @@ export class AddNewModalComponent
       const file = fileList[0];
 
       if (file) {
-        this.fileName = file.name;
+        this.file = file;
         // const formData = new FormData();
         // formData.append('thumbnail', file);
         // const upload$ = this.http.post("/api/thumbnail-upload", formData);

@@ -14,7 +14,7 @@
         #fileUpload
       />
       <div class="file-upload">
-        {{ fileName || "No file uploaded yet. " }}
+        {{ file?.name || "No file uploaded yet. " }}
 
         <button (click)="fileUpload.click()">
           <span class="material-icons">attach_file</span>
