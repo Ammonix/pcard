@@ -8,8 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { SimpleModalService } from 'ngx-simple-modal';
-import { of, Subscription } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { Observable, of, ReplaySubject, Subject, Subscription } from 'rxjs';
+import { mergeAll, mergeMap, switchAll } from 'rxjs/operators';
 import { RubricService } from 'src/app/shared/services/rubric.service';
 import { Rubric } from 'src/app/shared/types/rubric';
 import { AddNewModalComponent } from '../add-new-modal/add-new-modal.component';
@@ -24,8 +24,12 @@ export class RubricItemComponent implements OnInit, OnDestroy {
   @ViewChild('imgContainer') imgContainer!: ElementRef;
   @ViewChild('img') img!: ElementRef;
 
-  @Input() rubric!: Rubric;
-
+  @Input() set rubric(rubric: Rubric) {
+    console.log(rubric)
+    this.rubricSubject$.next(of(rubric));
+  }
+  private rubricSubject$ = new ReplaySubject<Observable<Rubric>>();
+  rubric$ = this.rubricSubject$.pipe(mergeAll());
   imgUri = environment.serverBaseUri + '/files/';
   subscription!: Subscription;
 
@@ -40,6 +44,10 @@ export class RubricItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {}
+
+  openSubRubric(id: string) {
+    this.rubricSubject$.next(this.rubricService.getRubricById$(id));
+  }
 
   onImgClick(event: MouseEvent) {
     this.subscription = this.simpleModalService

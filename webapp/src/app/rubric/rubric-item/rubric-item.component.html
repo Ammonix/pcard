@@ -1,13 +1,22 @@
-<div class="img-container" #imgContainer>
-  <img #img [src]="imgUri + rubric.imageSource" (click)="onImgClick($event)" />
-</div>
+<div *ngIf="rubric$ | async as rubric" class="wrapper">
+  <div class="img-container" #imgContainer>
+    <img
+      #img
+      [src]="imgUri + rubric.imageSource"
+      (click)="onImgClick($event)"
+    />
+  </div>
 
-<div>
-  <h1>{{ rubric.name }}</h1>
-  <h2>{{ rubric.subTitle }}</h2>
-  <ol>
-    <li *ngFor="let subRubric of rubric.children">
-      {{ subRubric.name }}
-    </li>
-  </ol>
+  <div>
+    <h1>{{ rubric.name }}</h1>
+    <h2>{{ rubric.subTitle }}</h2>
+    <ol>
+      <li
+        *ngFor="let subRubric of rubric.children"
+        (click)="openSubRubric(subRubric.id)"
+      >
+        {{ subRubric.name }}
+      </li>
+    </ol>
+  </div>
 </div>

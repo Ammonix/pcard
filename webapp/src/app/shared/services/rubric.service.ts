@@ -5,14 +5,23 @@ import { catchError, map } from 'rxjs/operators';
 import { Rubric } from '../types/rubric';
 import { environment } from '../../../environments/environment';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class RubricService {
   getRubrics$(): Observable<Rubric[]> {
     return this.httpClient
-      .get<{ statusCode: number; data: Rubric[] }>(`${environment.serverBaseUri}/rubrics`)
+      .get<{ statusCode: number; data: Rubric[] }>(
+        `${environment.serverBaseUri}/rubrics`
+      )
+      .pipe(map((i) => i.data));
+  }
+
+  getRubricById$(id: string): Observable<Rubric> {
+    return this.httpClient
+      .get<{ statusCode: number; data: Rubric }>(
+        `${environment.serverBaseUri}/rubrics/${id}`
+      )
       .pipe(map((i) => i.data));
   }
 

@@ -1,4 +1,4 @@
-:host {
+.wrapper {
   display: flex;
 }
 
@@ -10,6 +10,7 @@ ol {
   padding-left: 1em;
 }
 li {
+  cursor: pointer;
   list-style-type: decimal;
   line-height: 2em;
   & + li {
@@ -27,7 +28,7 @@ li {
   border-radius: 50%;
   position: absolute;
 }
-.img-container{
+.img-container {
   position: relative;
   margin-right: 20px;
   img {
