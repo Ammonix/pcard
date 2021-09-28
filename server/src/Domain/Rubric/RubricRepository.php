@@ -20,8 +20,12 @@ interface RubricRepository
 
     /**
      * @param string $parentId
+     * @param string $name
+     * @param string $imageSource
+     * @param int $x
+     * @param int $y
      * @return Rubric
      * @throws RubricNotFoundException
      */
-    public function addSubRubric(string $id, string $name, string $imageSource): Rubric;
+    public function addSubRubric(string $parentId, string $name, string $imageSource, int $x, int $y): Rubric;
 }

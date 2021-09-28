@@ -58,12 +58,12 @@ class FileRubricRepository implements RubricRepository
     /**
      * {@inheritdoc}
      */
-    public function addSubRubric(string $parentId, string $name, string $imageSource): Rubric
+    public function addSubRubric(string $parentId, string $name, string $imageSource, int $x, int $y): Rubric
     {
         if (!isset($this->rubrics[$parentId])) {
             throw new RubricNotFoundException();
         }
-        $childToAppend = new Rubric(uniqid(), $parentId, $name, null, $imageSource);
+        $childToAppend = new Rubric(uniqid(), $parentId, $name, null, $imageSource, $x, $y);
         $parent = $this->rubrics[$parentId];
         $parent->addChildId($childToAppend->getId());
         $this->rubrics[$childToAppend->getId()] = $childToAppend;
@@ -85,7 +85,7 @@ class FileRubricRepository implements RubricRepository
                 "wasserfahrzeug",
                 "motorboot",
                 "boat.jpg",
-                [
+                childrenIds: [
                     $childId1,
                     $childId2,
                     $childId3,
@@ -97,28 +97,36 @@ class FileRubricRepository implements RubricRepository
                 $parentId1,
                 "Motorenraum Schallschutz",
                 null,
-                "assets/imgs/motorboot.jpg"
+                "assets/imgs/motorboot.jpg",
+                25,
+                50
             ),
             $childId2 => new Rubric(
                 $childId2,
                 $parentId1,
                 "Innenraum Lärmschutz",
                 null,
-                "assets/imgs/motorboot.jpg"
+                "assets/imgs/motorboot.jpg",
+                40,
+                150
             ),
             $childId3 =>  new Rubric(
                 $childId3,
                 $parentId1,
                 "Schaumstoff Polster Matratzen",
                 null,
-                "assets/imgs/motorboot.jpg"
+                "assets/imgs/motorboot.jpg",
+                120,
+                210
             ),
             $childId4 => new Rubric(
                 $childId4,
                 $parentId1,
                 "Motorboot Dichtungen-Profile aus Gummi",
                 null,
-                "assets/imgs/motorboot.jpg"
+                "assets/imgs/motorboot.jpg",
+                200,
+                300
             ),
         ];
     }

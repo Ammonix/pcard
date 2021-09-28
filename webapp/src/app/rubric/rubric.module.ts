@@ -6,12 +6,14 @@ import { RubricListComponent } from './rubric-list/rubric-list.component';
 import { RubricItemComponent } from './rubric-item/rubric-item.component';
 import { AddNewModalComponent } from './add-new-modal/add-new-modal.component';
 import { FormsModule } from '@angular/forms';
+import { ImageContainerComponent } from './image-container/image-container.component';
 
 @NgModule({
   declarations: [
     RubricListComponent,
     RubricItemComponent,
     AddNewModalComponent,
+    ImageContainerComponent,
   ],
   imports: [CommonModule, RubricRoutingModule, FormsModule],
 })

@@ -19,10 +19,23 @@ class AddSubRubricAction extends RubricAction
         if ($file->getError() === UPLOAD_ERR_OK) {
             $filename = $this->moveUploadedFile("../db/files", $file);
         }
-        $rubricName = $this->request->getParsedBody()["rubricName"];
-        $rubrics = $this->rubricRepository->addSubRubric($this->resolveArg("id"),  $rubricName, $filename);
+        $body = $this->request->getParsedBody();
+        $rubric = $this->rubricRepository->addSubRubric(
+            $this->resolveArg("id"),
+            $body["rubricName"],
+            $filename,
+            (int)$body["x"],
+            (int)$body["y"]
+        );
+        if ($rubric->getChildrenIds()) {
+            $children = [];
+            foreach ($rubric->getChildrenIds() as $childId) {
+                $children[] = $this->rubricRepository->findRubricOfId($childId);
+            }
+            $rubric->setChildren($children);
+        }
         $this->logger->info("SubRubric was added.");
-        return $this->respondWithData($rubrics);
+        return $this->respondWithData($rubric);
     }
 
 

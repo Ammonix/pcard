@@ -4,4 +4,6 @@ export interface Rubric {
   subTitle?: string;
   imageSource: string;
   children?: Rubric[];
+  x?: number;
+  y?: number;
 }

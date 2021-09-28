@@ -34,6 +34,16 @@ class Rubric implements JsonSerializable
     private $imageSource;
 
     /**
+     * @var int|null
+     */
+    private $x;
+
+    /**
+     * @var int|null
+     */
+    private $y;
+
+    /**
      * @var string[]|null
      */
     private $childrenIds;
@@ -43,6 +53,7 @@ class Rubric implements JsonSerializable
      */
     private $children;
 
+
     /**
      * @param string|null   $id
      * @param string        $name
@@ -50,13 +61,15 @@ class Rubric implements JsonSerializable
      * @param string        $imageSource
      * @param string[]|null $childrenIds
      */
-    public function __construct(?string $id, ?string $parentId, string $name, ?string $subTitle, string $imageSource, ?array $childrenIds = null)
+    public function __construct(?string $id, ?string $parentId, string $name, ?string $subTitle, string $imageSource, ?int $x = null, ?int $y = null, ?array $childrenIds = null)
     {
         $this->id = $id;
         $this->parentId = $parentId;
         $this->name = strtoupper($name);
         $this->subTitle = $subTitle;
         $this->imageSource = $imageSource;
+        $this->x = $x;
+        $this->y = $y;
         $this->childrenIds = $childrenIds;
     }
 
@@ -134,6 +147,8 @@ class Rubric implements JsonSerializable
             'name' => $this->name,
             'subTitle' => $this->subTitle,
             'imageSource' => $this->imageSource,
+            'x' => $this->x,
+            'y' => $this->y,
             'children' => $this->children,
         ];
     }

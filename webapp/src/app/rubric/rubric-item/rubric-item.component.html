@@ -1,11 +1,9 @@
 <div *ngIf="rubric$ | async as rubric" class="wrapper">
-  <div class="img-container" #imgContainer>
-    <img
-      #img
-      [src]="imgUri + rubric.imageSource"
-      (click)="onImgClick($event)"
-    />
-  </div>
+  <app-image-container
+    [imageSource]="baseUri + rubric.imageSource"
+    [dots]="createDots(rubric.children)"
+    (onImageClick)="onImageClick($event, rubric.name, rubric.id)"
+  ></app-image-container>
 
   <div>
     <h1>{{ rubric.name }}</h1>

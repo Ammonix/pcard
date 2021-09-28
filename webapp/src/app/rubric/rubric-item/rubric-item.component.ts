@@ -8,8 +8,23 @@ import {
   ViewChild,
 } from '@angular/core';
 import { SimpleModalService } from 'ngx-simple-modal';
-import { Observable, of, ReplaySubject, Subject, Subscription } from 'rxjs';
-import { mergeAll, mergeMap, switchAll } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  EMPTY,
+  Observable,
+  of,
+  ReplaySubject,
+  Subject,
+  Subscription,
+} from 'rxjs';
+import {
+  filter,
+  map,
+  mergeAll,
+  mergeMap,
+  switchAll,
+  tap,
+} from 'rxjs/operators';
 import { RubricService } from 'src/app/shared/services/rubric.service';
 import { Rubric } from 'src/app/shared/types/rubric';
 import { AddNewModalComponent } from '../add-new-modal/add-new-modal.component';
@@ -20,73 +35,58 @@ import { environment } from '../../../environments/environment';
   templateUrl: './rubric-item.component.html',
   styleUrls: ['./rubric-item.component.scss'],
 })
-export class RubricItemComponent implements OnInit, OnDestroy {
-  @ViewChild('imgContainer') imgContainer!: ElementRef;
-  @ViewChild('img') img!: ElementRef;
-
-  @Input() set rubric(rubric: Rubric) {
-    console.log(rubric)
-    this.rubricSubject$.next(of(rubric));
+export class RubricItemComponent implements OnInit {
+  @Input() set mainRubricId(id: string) {
+    this.rubricSubject$.next(this.rubricService.getRubricById$(id));
   }
-  private rubricSubject$ = new ReplaySubject<Observable<Rubric>>();
-  rubric$ = this.rubricSubject$.pipe(mergeAll());
-  imgUri = environment.serverBaseUri + '/files/';
-  subscription!: Subscription;
+
+  rubricSubject$ = new ReplaySubject<Observable<Rubric>>();
+  rubric$ = this.rubricSubject$.pipe(
+    mergeAll(),
+    filter((i) => !!i)
+  );
+  baseUri = environment.serverBaseUri + '/files/';
+
 
   constructor(
-    private renderer: Renderer2,
     private simpleModalService: SimpleModalService,
     private rubricService: RubricService
   ) {}
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
+  
   ngOnInit(): void {}
 
   openSubRubric(id: string) {
     this.rubricSubject$.next(this.rubricService.getRubricById$(id));
   }
 
-  onImgClick(event: MouseEvent) {
-    this.subscription = this.simpleModalService
-      .addModal(AddNewModalComponent, {
-        parentRubricName: this.rubric.name,
-      })
-      .pipe(
-        mergeMap((result) => {
-          if (result?.isValid) {
-            this.placeCircle(event.clientX, event.clientY, this.createCircle());
-            return this.rubricService.addSubRubric$(
-              this.rubric.id,
-              result.formData
-            );
-          }
-          return of(this.rubric);
+  createDots(children?: Rubric[]) {
+    return children?.map((i, index) => ({
+      x: i.x ?? 0,
+      y: i.y ?? 0,
+      number: (index + 1).toString(),
+    }));
+  }
+
+  onImageClick(event: MouseEvent, parentRubricName: string, parentId: string) {
+    this.rubricSubject$.next(
+      this.simpleModalService
+        .addModal(AddNewModalComponent, {
+          parentRubricName,
         })
-      )
-      .subscribe((rubric) => (this.rubric = rubric));
-  }
-
-  private placeCircle(
-    pointerX: number,
-    pointerY: number,
-    circle: HTMLDivElement
-  ) {
-    let x =
-      pointerX - this.img.nativeElement.offsetLeft - circle.clientWidth / 2;
-    let y = pointerY - this.img.nativeElement.offsetTop - circle.clientHeight;
-    this.renderer.setStyle(circle, 'left', x + 'px');
-    this.renderer.setStyle(circle, 'top', y + 'px');
-  }
-
-  private createCircle() {
-    let circle: HTMLDivElement = this.renderer.createElement('div');
-    let txt = this.renderer.createText('1');
-    this.renderer.appendChild(circle, txt);
-    this.renderer.addClass(circle, 'circle');
-    this.renderer.appendChild(this.imgContainer.nativeElement, circle);
-    return circle;
+        .pipe(
+          mergeMap((result) => {
+            if (result?.isValid) {
+              result.formData.append("x", event.clientX.toString());
+              result.formData.append("y", event.clientY.toString());
+              return this.rubricService.addSubRubric$(
+                parentId,
+                result.formData
+              );
+            }
+            return EMPTY;
+          })
+        )
+    );
   }
 }
