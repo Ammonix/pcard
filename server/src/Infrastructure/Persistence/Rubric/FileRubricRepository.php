@@ -73,61 +73,31 @@ class FileRubricRepository implements RubricRepository
 
     private function initalRubrics()
     {
-        $parentId1 = "615079b183c00";
-        $childId1 = "615079b183c12";
-        $childId2 = "615079b183f13";
-        $childId3 = "615079b152e15";
-        $childId4 = "615079b181c08";
+        $id1 = "615079b183c00";
+        $id2 = "615079b183c12";
+        $id3 = "615079b183f13";
         return [
-            $parentId1 => new Rubric(
-                $parentId1,
+            $id1 => new Rubric(
+                $id1,
                 null,
                 "wasserfahrzeug",
                 "motorboot",
-                "boat.jpg",
-                childrenIds: [
-                    $childId1,
-                    $childId2,
-                    $childId3,
-                    $childId4,
-                ]
+                "boat.jpg"
             ),
-            $childId1 =>  new Rubric(
-                $childId1,
-                $parentId1,
-                "Motorenraum Schallschutz",
+            $id2 => new Rubric(
+                $id2,
                 null,
-                "assets/imgs/motorboot.jpg",
-                25,
-                50
-            ),
-            $childId2 => new Rubric(
-                $childId2,
-                $parentId1,
-                "Innenraum Lärmschutz",
+                "landfahrzeug",
+                "Auto",
+                "car.jpg"
+            ), 
+            $id3 => new Rubric(
+                $id3,
                 null,
-                "assets/imgs/motorboot.jpg",
-                40,
-                150
-            ),
-            $childId3 =>  new Rubric(
-                $childId3,
-                $parentId1,
-                "Schaumstoff Polster Matratzen",
-                null,
-                "assets/imgs/motorboot.jpg",
-                120,
-                210
-            ),
-            $childId4 => new Rubric(
-                $childId4,
-                $parentId1,
-                "Motorboot Dichtungen-Profile aus Gummi",
-                null,
-                "assets/imgs/motorboot.jpg",
-                200,
-                300
-            ),
+                "luftfahrzeug",
+                "Propellerflugzeug",
+                "plane.jpg"
+            )
         ];
     }
 }

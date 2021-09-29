@@ -17,12 +17,14 @@ class ListRubricsAction extends RubricAction
 
         foreach ($rubrics as $rubric) {
             $children = [];
-            foreach ($rubric->getChildrenIds() as $childId) {
-                $children[] = $this->rubricRepository->findRubricOfId($childId);
+            if ($rubric->getChildrenIds()) {
+                foreach ($rubric->getChildrenIds() as $childId) {
+                    $children[] = $this->rubricRepository->findRubricOfId($childId);
+                }
+                $rubric->setChildren($children);
             }
-            $rubric->setChildren($children);
         }
-        
+
         $this->logger->info("Rubrics list was viewed.");
 
         return $this->respondWithData($rubrics);
