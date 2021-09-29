@@ -5,6 +5,6 @@
 /logs/*
 !/logs/README.md
 .phpunit.result.cache
-db/*.*
+db/**
 !db/.gitkeep 
 !db/files/.gitkeep 
