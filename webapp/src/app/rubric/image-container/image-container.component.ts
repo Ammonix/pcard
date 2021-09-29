@@ -17,8 +17,7 @@ import {
   styleUrls: ['./image-container.component.scss'],
 })
 export class ImageContainerComponent implements OnInit, OnChanges {
-  @ViewChild('imgContainer') imgContainer!: ElementRef;
-  @ViewChild('img') img!: ElementRef;
+  @ViewChild('imgContainer') imgContainer?: ElementRef;
   @Input() imageSource?: string;
   @Input() dots?: { x: number; y: number; number: string }[];
   @Output() onImageClick = new EventEmitter<MouseEvent>();
@@ -29,9 +28,11 @@ export class ImageContainerComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.imgContainer && this.img) {
-     this.circles?.forEach(i=>this.renderer.removeChild(this.imgContainer.nativeElement, i))
+  ngOnChanges(_: SimpleChanges): void {
+    if (this.imgContainer ) {
+      this.circles?.forEach((i) =>
+        this.renderer.removeChild(this.imgContainer?.nativeElement, i)
+      );
       this.circles = this.dots?.map((i) => {
         let circle = this.createCircle(i.number);
         this.placeCircle(i.x, i.y, circle);
@@ -46,8 +47,9 @@ export class ImageContainerComponent implements OnInit, OnChanges {
     circle: HTMLDivElement
   ) {
     let x =
-      pointerX - this.img.nativeElement.offsetLeft - circle.clientWidth / 2;
-    let y = pointerY - this.img.nativeElement.offsetTop - circle.clientHeight;
+      pointerX - circle.clientWidth / 2;
+    let y =
+      pointerY  - circle.clientHeight / 2;
     this.renderer.setStyle(circle, 'left', x + 'px');
     this.renderer.setStyle(circle, 'top', y + 'px');
   }
@@ -57,7 +59,7 @@ export class ImageContainerComponent implements OnInit, OnChanges {
     let txt = this.renderer.createText(number);
     this.renderer.appendChild(circle, txt);
     this.renderer.addClass(circle, 'circle');
-    this.renderer.appendChild(this.imgContainer.nativeElement, circle);
+    this.renderer.appendChild(this.imgContainer?.nativeElement, circle);
     return circle;
   }
 }
