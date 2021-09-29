@@ -81,7 +81,7 @@ class FileRubricRepository implements RubricRepository
                 $id1,
                 null,
                 "wasserfahrzeug",
-                "motorboot",
+                "Motorboot",
                 "boat.jpg"
             ),
             $id2 => new Rubric(
