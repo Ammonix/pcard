@@ -29,7 +29,7 @@ export class ImageContainerComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges(_: SimpleChanges): void {
-    if (this.imgContainer ) {
+    if (this.imgContainer) {
       this.circles?.forEach((i) =>
         this.renderer.removeChild(this.imgContainer?.nativeElement, i)
       );
@@ -46,10 +46,8 @@ export class ImageContainerComponent implements OnInit, OnChanges {
     pointerY: number,
     circle: HTMLDivElement
   ) {
-    let x =
-      pointerX - circle.clientWidth / 2;
-    let y =
-      pointerY  - circle.clientHeight / 2;
+    let x = pointerX - circle.clientWidth / 2;
+    let y = pointerY - circle.clientHeight / 2;
     this.renderer.setStyle(circle, 'left', x + 'px');
     this.renderer.setStyle(circle, 'top', y + 'px');
   }

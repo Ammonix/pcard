@@ -1,30 +1,7 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { SimpleModalService } from 'ngx-simple-modal';
-import {
-  BehaviorSubject,
-  EMPTY,
-  Observable,
-  of,
-  ReplaySubject,
-  Subject,
-  Subscription,
-} from 'rxjs';
-import {
-  filter,
-  map,
-  mergeAll,
-  mergeMap,
-  switchAll,
-  tap,
-} from 'rxjs/operators';
+import { EMPTY, Observable, ReplaySubject } from 'rxjs';
+import { filter, mergeAll, mergeMap } from 'rxjs/operators';
 import { RubricService } from 'src/app/shared/services/rubric.service';
 import { Rubric } from 'src/app/shared/types/rubric';
 import { AddNewModalComponent } from '../add-new-modal/add-new-modal.component';
@@ -47,13 +24,11 @@ export class RubricItemComponent implements OnInit {
   );
   baseUri = environment.serverBaseUri + '/files/';
 
-
   constructor(
     private simpleModalService: SimpleModalService,
     private rubricService: RubricService
   ) {}
 
-  
   ngOnInit(): void {}
 
   openSubRubric(id: string) {
@@ -77,8 +52,8 @@ export class RubricItemComponent implements OnInit {
         .pipe(
           mergeMap((result) => {
             if (result?.isValid) {
-              result.formData.append("x", event.offsetX.toString());
-              result.formData.append("y", event.offsetY.toString());
+              result.formData.append('x', event.offsetX.toString());
+              result.formData.append('y', event.offsetY.toString());
               return this.rubricService.addSubRubric$(
                 parentId,
                 result.formData
