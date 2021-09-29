@@ -3,7 +3,7 @@
     <h4>Add new sub rubric for {{ parentRubricName }}</h4>
   </div>
   <div class="modal-body">
-    <form #f="ngForm">
+    <form #f="ngForm" (keydown.enter)="onSubmit(f); $event.stopPropagation()">
       <input
         name="file"
         ngModel
@@ -16,13 +16,17 @@
       <div class="file-upload">
         {{ file?.name || "No file uploaded yet. " }}
 
-        <button (click)="fileUpload.click()">
+        <div class="icon-wrapper" (click)="fileUpload.click()">
           <span class="material-icons">attach_file</span>
-        </button>
+        </div>
       </div>
       <span>Rubric name:</span>
-      <input name="rubricName" ngModel required #first="ngModel" />
+      <input name="rubricName" ngModel required />
     </form>
+    <div class="form-control-feedback" *ngIf="formErrors">
+      <p *ngIf="formErrors?.file">File is required</p>
+      <p *ngIf="formErrors?.name">Name is required</p>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-danger" (click)="close()">

@@ -1,7 +1,7 @@
 .file-input {
   display: none;
 }
-.file-upload button {
+.icon-wrapper {
   background-color: blue;
   border: none;
   color: white;
@@ -10,4 +10,8 @@
   text-decoration: none;
   display: inline-block;
   border-radius: 50%;
+}
+.form-control-feedback{
+  color: red;
+  padding-top: 1em;
 }

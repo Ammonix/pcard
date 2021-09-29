@@ -20,6 +20,7 @@ export class AddNewModalComponent
 {
   parentRubricName!: string;
   file!: File;
+  formErrors?: { file: boolean; name: boolean };
 
   constructor() {
     super();
@@ -28,10 +29,15 @@ export class AddNewModalComponent
   onSubmit(f: NgForm) {
     if (f.valid) {
       var formData = new FormData();
-      formData.append("file", this.file);
-      formData.append("rubricName", f.value.rubricName);
+      formData.append('file', this.file);
+      formData.append('rubricName', f.value.rubricName);
       this.result = { isValid: true, formData };
       this.close();
+    } else {
+      this.formErrors = {
+        file: f.form.controls.file.status == 'INVALID',
+        name: f.form.controls.rubricName.status == 'INVALID',
+      };
     }
   }
 
