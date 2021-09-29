@@ -77,8 +77,8 @@ export class RubricItemComponent implements OnInit {
         .pipe(
           mergeMap((result) => {
             if (result?.isValid) {
-              result.formData.append("x", event.clientX.toString());
-              result.formData.append("y", event.clientY.toString());
+              result.formData.append("x", event.offsetX.toString());
+              result.formData.append("y", event.offsetY.toString());
               return this.rubricService.addSubRubric$(
                 parentId,
                 result.formData

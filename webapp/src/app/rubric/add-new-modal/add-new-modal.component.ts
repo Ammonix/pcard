@@ -39,13 +39,8 @@ export class AddNewModalComponent
     const fileList = (event?.target as HTMLInputElement).files;
     if (fileList) {
       const file = fileList[0];
-
       if (file) {
         this.file = file;
-        // const formData = new FormData();
-        // formData.append('thumbnail', file);
-        // const upload$ = this.http.post("/api/thumbnail-upload", formData);
-        // upload$.subscribe();
       }
     }
   }
