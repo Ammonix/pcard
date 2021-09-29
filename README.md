@@ -33,3 +33,7 @@ To run angular frontend use:
 cd webapp
 ng serve
 ```
+
+## Accessibility Tool
+
+To ensure accessibility, the tool : https://wave.webaim.org/ was used to evaluate the frontend.

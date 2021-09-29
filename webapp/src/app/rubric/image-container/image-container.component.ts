@@ -19,6 +19,7 @@ import {
 export class ImageContainerComponent implements OnInit, OnChanges {
   @ViewChild('imgContainer') imgContainer?: ElementRef;
   @Input() imageSource?: string;
+  @Input() name?: string;
   @Input() dots?: { x: number; y: number; number: string }[];
   @Output() onImageClick = new EventEmitter<MouseEvent>();
 

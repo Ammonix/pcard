@@ -1,5 +1,6 @@
 <div *ngIf="rubric$ | async as rubric" class="wrapper">
   <app-image-container
+    [name]="rubric.name"
     [imageSource]="baseUri + rubric.imageSource"
     [dots]="createDots(rubric.children)"
     (onImageClick)="onImageClick($event, rubric.name, rubric.id)"
