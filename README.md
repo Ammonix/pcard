@@ -7,7 +7,7 @@
 php backend via composer:
 
 ```cmd
-cd server/public
+cd server
 composer install
 ```
 
